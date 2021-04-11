@@ -6,7 +6,7 @@
         Return Merchandise Authorization""",
 
     'description': """
-        Return/Refund Orders in one Step 
+        Return/Refund Orders in one Step.
     """,
 
     'author': "Codoo",
@@ -26,5 +26,5 @@
         'views/views.xml',
         'views/templates.xml',
     ],
-
+    "images": ['static/description/icon.png','static/images/desc1.png','static/images/desc.png'],
 }
