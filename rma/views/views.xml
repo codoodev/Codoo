@@ -1,0 +1,149 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+
+        <record model="ir.ui.view" id="rma_list">
+            <field name="name">rma list</field>
+            <field name="model">rma.rma</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="subject"/>
+                    <field name="partner_id"/>
+                    <field name="delivery_order"/>
+                    <field name="date"/>
+                    <field name="total_refund" string="Total Refunds"  sum="Total Refunds" />
+                    <field name="total_receipt" string="Total Receipt"  sum="Total Return Products"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="rma_form">
+            <field name="name">rma Form</field>
+            <field name="model">rma.rma</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="approve" type="object" string="Approve" class="oe_highlight"
+                                attrs="{'invisible':[('state', '!=','draft')]}"/>
+                        <button name="reject" type="object" string="Reject" class="oe_highlight"
+                                attrs="{'invisible':[('state', '!=','draft')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,approved,closed"/>
+
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_credit_note" type="object" class="oe_stat_button"
+                                    icon="fa-money">
+                                <field name="total_refund" string="Refund Invoice" widget='monetary'
+                                       options="{'currency_field': 'currency_id'}"/>
+
+                            </button>
+                            <button name="action_view_recipt" type="object" class="oe_stat_button"
+                                    icon="fa-truck">
+                                    <field name="total_receipt" widget='statinfo' string="Products"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="currency_id" invisible="1"/>
+
+                                <field name="subject" attrs="{'readonly':[('state', '!=','draft')]}"/>
+                                <field name="partner_id" options="{'no_create_edit': True, 'no_quick_create': True}"
+                                       attrs="{'readonly':[('state', '!=','draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="date" attrs="{'readonly':[('state', '!=','draft')]}"/>
+                                <field name="delivery_order" options="{'no_create_edit': True, 'no_quick_create': True}"
+                                       attrs="{'readonly':[('state', '!=','draft')]}"/>
+                                <field name="invoice_id" invisible="1"/>
+                            </group>
+                            <field name="rma_lines" attrs="{'readonly':[('state', '!=','draft')]}">
+                                <tree string="Rma Lines" editable="bottom">
+                                    <field name="product_id"
+                                           options="{'no_create_edit': True, 'no_quick_create': True}"/>
+                                    <field name="delivered_quantity"/>
+                                    <field name="return_quantity"/>
+                                    <field name="reason" options="{'no_create_edit': True, 'no_quick_create': True}"/>
+                                </tree>
+                            </field>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="sequence_self_service" model="ir.sequence">
+            <field name="name">RMA</field>
+            <field name="code">rma.seq</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">RMA/</field>
+            <field name="padding">6</field>
+            <field name="number_increment">1</field>
+        </record>
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="rma_action_window">
+            <field name="name">RMA</field>
+            <field name="res_model">rma.rma</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- explicit list view definition -->
+
+        <record model="ir.ui.view" id="reason_list">
+            <field name="name">reason list</field>
+            <field name="model">rma.reason</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="reason_form">
+            <field name="name">reason Form</field>
+            <field name="model">rma.reason</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="reason_action_window">
+            <field name="name">Reasons</field>
+            <field name="res_model">rma.reason</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- Top menu item -->
+
+        <!-- menu categories -->
+
+        <menuitem name="RMA" id="rma_menu_1" />
+
+
+        <!-- actions -->
+
+        <menuitem name="Rma" id="rma.menu_1_list" parent="rma_menu_1"
+                  action="rma_action_window"/>
+
+        <menuitem name="Reasons" id="reasons" parent="rma_menu_1"
+                  action="reason_action_window"/>
+
+    </data>
+</odoo>

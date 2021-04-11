@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rma_rma,rma.rma,model_rma_rma,base.group_system,1,1,1,1
+access_rma_lines,rma.lines,model_rma_lines,base.group_system,1,1,1,1
+access_rma_reason,rma.reason,model_rma_reason,base.group_system,1,1,1,1
