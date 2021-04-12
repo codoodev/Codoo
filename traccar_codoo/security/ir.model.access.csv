@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_config_traccar,config.traccar,model_config_traccar,base.group_user,1,1,1,1
+access_traccar_report,traccar.report,model_traccar_report,base.group_user,1,1,1,1

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<data noupdate="1">
+        <record id="config_traccar_codoo" model="config.traccar">
+            <field name="name">Traccar Server</field>
+            <field name="server">http://localhost:8082</field>
+            <field name="username">admin</field>
+            <field name="password">1234</field>
+            <field name="token">Test</field>
+        </record>
+    </data>
