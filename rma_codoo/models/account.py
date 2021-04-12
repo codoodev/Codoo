@@ -3,6 +3,6 @@
 from odoo import models, fields, api
 
 class Refund(models.Model):
-    _inherit = 'account.invoice'
+    _inherit = 'account.move'
 
     ret_refund = fields.Many2one('rma.rma')

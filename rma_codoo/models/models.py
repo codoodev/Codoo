@@ -15,14 +15,14 @@ class Rma(models.Model):
         copy=False, default='draft', readonly=True)
 
     subject = fields.Char('Subject', required=True)
-    partner_id = fields.Many2one('res.partner',string='Partner', required=True, domain=[('customer','=',True)])
+    partner_id = fields.Many2one('res.partner',string='Partner', required=True, domain=[('customer_rank','>',0)])
     delivery_order = fields.Many2one('stock.picking',string='Delivery Order', required=True)
     date = fields.Date('Date',required=True, default=lambda self: fields.Date.today())
     rma_lines = fields.One2many('rma.lines','ram_ram')
     total_receipt = fields.Float(compute='_compute_receipt_quantity')
     total_refund = fields.Float(compute='_compute_refund_total_price')
     currency_id = fields.Many2one('res.currency',default= lambda self: self.env.user.company_id.currency_id)
-    invoice_id = fields.Many2one('account.invoice')
+    invoice_id = fields.Many2one('account.move')
 
     def _compute_receipt_quantity(self):
         for record in self:
@@ -31,7 +31,7 @@ class Rma(models.Model):
 
     def _compute_refund_total_price(self):
         for record in self:
-            record.total_refund = sum(self.env['account.invoice'].search(
+            record.total_refund = sum(self.env['account.move'].search(
                 [('ret_refund', '=', record.id)]).mapped('amount_total'))
 
     @api.model
@@ -67,7 +67,7 @@ class Rma(models.Model):
         lines_list = []
         returns = self.env['stock.picking'].search([('origin', '=', 'Return of %s' % self.delivery_order.name)])
         if self.delivery_order:
-            invoice = self.env['account.invoice'].search([('origin','=',self.delivery_order.sale_id.name)], order='id')[-1]
+            invoice = self.env['account.move'].search([('invoice_origin','=',self.delivery_order.sale_id.name)], order='id')[-1]
             if invoice:
                 self.invoice_id = invoice.id
         if self.delivery_order:
@@ -86,8 +86,8 @@ class Rma(models.Model):
         self.rma_lines = lines_list
 
     def approve(self):
-        invoice = self.env['account.invoice'].search([('origin', '=', self.delivery_order.origin),('type','=','out_invoice')])
-        refund = self.env['account.invoice'].search([])
+        invoice = self.env['account.move'].search([('invoice_origin', '=', self.delivery_order.origin),('type','=','out_invoice')])
+        refund = self.env['account.move'].search([])
         returns = self.env['stock.picking'].search([])
         sale_order = self.env['sale.order'].search([('name','=',self.delivery_order.origin)])
         invoice_line_list = []
@@ -100,25 +100,22 @@ class Rma(models.Model):
                                                      'name': inv_line.name,
                                                      'account_id': inv_line.account_id.id,
                                                      'price_unit': inv_line.price_unit,
-                                                     'invoice_line_tax_ids': [(6,0,inv_line.invoice_line_tax_ids.ids)],
                                                      'quantity': rma.return_quantity,
                                                      }))
                     refund_line_list.append((0, 0, {'product_id': rma.product_id.id,
                                                     'product_uom_qty': rma.return_quantity,
                                                     'name': inv_line.name,
-                                                    'product_uom': inv_line.uom_id.id,
+                                                    'product_uom': inv_line.product_uom_id.id,
                                                     }))
 
         refund.create({'partner_id': invoice.partner_id.id,
-                       'name': self.name,
+                       'ref': self.name,
                        'ret_refund':self.id,
                        'type': 'out_refund',
                        'user_id': invoice.user_id.id,
                        'team_id': invoice.team_id.id,
-                       'origin': invoice.number,
+                       'invoice_origin': invoice.name,
                        'journal_id': invoice.journal_id.id,
-                       'account_id': invoice.account_id.id,
-                       'reference': invoice.reference,
                        'invoice_line_ids': invoice_line_list
                        })
 
@@ -134,15 +131,15 @@ class Rma(models.Model):
         self.write({'state': 'approved'})
 
     def action_view_credit_note(self):
-        template_tree = self.env.ref('account.invoice_tree')
-        template_form = self.env.ref('account.invoice_form')
+        template_tree = self.env.ref('account.view_invoice_tree')
+        template_form = self.env.ref('account.view_move_form')
 
         return {
             'type': 'ir.actions.act_window',
             'view_type': 'form',
             'view_mode': 'tree,form',
             'name': 'Credit note',
-            'res_model': 'account.invoice',
+            'res_model': 'account.move',
             'view_id': template_tree.id,
             'views': [(template_tree.id, 'tree'),(template_form.id, 'form')],
 

@@ -139,7 +139,7 @@
 
         <!-- actions -->
 
-        <menuitem name="Rma" id="rma.menu_1_list" parent="rma_menu_1"
+        <menuitem name="Rma" id="rma_menu_1_list" parent="rma_menu_1"
                   action="rma_action_window"/>
 
         <menuitem name="Reasons" id="reasons" parent="rma_menu_1"
