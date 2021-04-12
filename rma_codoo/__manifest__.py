@@ -13,7 +13,7 @@
     'license' : 'LGPL-3',
     # for the full list
     'category': 'Sales',
-    'version': '13.0',
+    'version': '14.0',
     'support': 'codoo.dev@gmail.com',
     'live_test_url': 'https://www.youtube.com/watch?v=OSebQrQHDrg',
 
