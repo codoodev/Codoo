@@ -16,6 +16,8 @@
     'category': 'Stock',
     'version': '12.0',
     'support': 'codoo.dev@gmail.com',
+    'live_test_url': 'https://www.youtube.com/watch?v=J5SXLUUni9o',
+
     # any module necessary for this one to work correctly
     'depends': ['base','stock','hr'],
 
