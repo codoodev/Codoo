@@ -28,5 +28,6 @@
         'views/configurations.xml',
         'data/data.xml',
     ],
+    "images": ['static/description/icon.png'],
 
 }
