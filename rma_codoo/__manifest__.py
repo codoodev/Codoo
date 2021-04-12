@@ -6,14 +6,14 @@
         Return Merchandise Authorization""",
 
     'description': """
-        Return/Refund Orders in one Step 
+        Return/Refund Orders in one Step.
     """,
 
     'author': "Codoo",
     'license' : 'LGPL-3',
     # for the full list
     'category': 'Sales',
-    'version': '12.0',
+    'version': '13.0',
     'support': 'codoo.dev@gmail.com',
     'live_test_url': 'https://www.youtube.com/watch?v=OSebQrQHDrg',
 
@@ -26,5 +26,5 @@
         'views/views.xml',
         'views/templates.xml',
     ],
-
+    "images": ['static/description/icon.png','static/images/desc1.png','static/images/desc.png'],
 }
