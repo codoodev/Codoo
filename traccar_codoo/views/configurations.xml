@@ -1,0 +1,53 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="config_traccar_view_form">
+            <field name="name">config.traccar</field>
+            <field name="model">config.traccar</field>
+            <field name="arch" type="xml">
+                <form create="false" delete="false">
+                    <header>
+                        <button string="Get Data From Traccar" type="object" name="action_get_data" class="oe_highlight oe_read_only"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="username" required="1"/>
+                                <field name="password" required="1" password="True"/>
+                            </group>
+                            <group>
+                                <field name="server" required="1"/>
+                                <field name="token" required="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="config_traccar_view_list" model="ir.ui.view">
+            <field name="name">config.traccar</field>
+            <field name="model">config.traccar</field>
+            <field name="arch" type="xml">
+                <tree create="false" delete="false">
+                    <field name="name"/>
+                    <field name="server"/>
+                    <field name="token"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="traccar_codoo_configuration">
+            <field name="name">Configuration</field>
+            <field name="res_model">config.traccar</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem name="Configuration" id="traccar_codoo.menu_4" parent="traccar_codoo.menu_root"
+                  action="traccar_codoo_configuration" sequence="4" />
+
+    </data>
+</odoo>
