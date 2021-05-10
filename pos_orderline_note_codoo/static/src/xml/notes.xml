@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-extend="Orderline">
+        <t t-jquery=".info-list" t-operation="append">
+                <li class="info orderline-note" contenteditable="true" id="note_get_value">
+                    <i class='fa fa-tag' role="img" aria-label="Note" title="Note" /><t t-esc="line.order_note" />
+                </li>
+        </t>
+    </t>
+
+    <t t-name="OrderlineNoteButton">
+        <div class='control-button'>
+            <i class='fa fa-tag' /> Add Note
+        </div>
+    </t>
+
+</templates>

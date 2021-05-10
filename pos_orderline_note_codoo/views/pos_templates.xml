@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="pos_sale_order_template" inherit_id="point_of_sale.assets">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/pos_orderline_note_codoo/static/src/js/notes.js"/>
+            </xpath>
+        </template>
+        
+    </data>
+</odoo>
