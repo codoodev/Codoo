@@ -2,7 +2,7 @@
 
 {
     'name': 'Order Line Note In POS',
-    'summary': """add Note in order line from the pos interface. """,
+    'summary': """Add Note in order line from the pos interface. """,
     'version': '13',
     'description': """The module is used to add note per order line in POS""",
     'author': "Codoo",
