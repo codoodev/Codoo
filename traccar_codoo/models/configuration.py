@@ -38,11 +38,13 @@ class ConfigTraccar(models.Model):
             token_response = requests.get(url, auth=HTTPBasicAuth(self.username, self.password))
             if str(token_response) == '<Response [200]>':
                 for rec in token_response.json():
+                    date_format = "%s %s" %(rec.get('serverTime').split("T")[0],rec.get('serverTime').split("T")[1].split(".")[0])
+                    date_server = datetime.strptime(date_format, '%Y-%m-%d %H:%M:%S')
                     driver_id = self.env['hr.employee'].search([('driver_id', '=', rec.get('deviceId'))]).id
                     if not self.env['traccar.report'].search([('report_id','=',rec.get('id'))]):
                         self.env['traccar.report'].sudo().create({'report_id': rec.get('id'),
                                                                    'device_id': driver_id,
-                                                                   'date': rec.get('serverTime'),
+                                                                   'date': date_server,
                                                                    'latitude': rec.get('latitude'),
                                                                    'longitude': rec.get('longitude'),
                                                                    })
