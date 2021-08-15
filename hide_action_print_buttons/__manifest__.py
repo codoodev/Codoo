@@ -16,7 +16,7 @@
     'category': 'Tools',
     'version': '14.0',
     'support': 'codoo.dev@gmail.com',
-    'website': 'codoo.dev@gmail.com',
+
     'live_test_url': 'https://youtu.be/Fw6Bn3dFXjM',
 
     # any module necessary for this one to work correctly
